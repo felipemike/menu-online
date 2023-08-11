@@ -499,7 +499,7 @@
 
           </div>
 
-          <div id="localEntrega" class="row mr-0 ml-0">
+          <div id="localEntrega" class="row mr-0 ml-0 hidden">
             <div class="col-4">
               <div class="form-group container-cep">
                 <label>CEP:</label>
@@ -583,7 +583,54 @@
 
           </div>
 
-          <div id="resumoCarrinho" class="row mr-0 ml-0 hidden">
+          <div id="resumoCarrinho" class="row mr-0 ml-0">
+            <div class="col-12">
+              <p class="title-carrinho mt-4">
+                <b>Itens do pedido:</b>
+              </p>
+            </div>
+
+            <div class="col-12">
+              <div class="row" id="listaitensResumo">
+                <div class="col-12 item-carrinho resumo">
+                  <div class="img-produto-resumo">
+                    <img src="./img/cardapio/burguers/burger-au-poivre-kit-4-pack.3ca0e39b02db753304cd185638dad518.jpg" />
+                  </div>
+                  <div class="dados-produto">
+                    <p class="title-produto-resumo">
+                      <b>Nome do produto</b>
+                    </p>
+                    <p class="price-produto-resumo">
+                      <b>R$ 100,00</b>
+                    </p>
+                  </div>
+                  <p class="quantidade-resumo-produto">
+                    x <b>3</b>
+                  </p>
+                </div>
+
+                <div class="col-12">
+                  <p class="title-carrinho mt-4"><b>
+                    Local da entrega:</b>
+                  </p>
+                </div>
+                <div class="col-12 item-carrinho resumo">
+                  <div class="img-map">
+                    <i class="fas fa-map-marked-alt"></i>
+                  </div>
+                  <div class="dados-produto">
+                    <p class="texto-endereco">
+                      <b id="resumoEndereco">Rua teste, 200, bairro teste</b>
+                    </p>
+                    <p class="cidade-endereco" id="cidadeEndereco">
+                      Cidade-SP / 14711-000
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>              
+            </div>
 
           </div>
 
