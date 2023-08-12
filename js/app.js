@@ -4,6 +4,8 @@ $(document).ready(function () {
 
 var cardapio = {};
 
+var MEU_CARRINHO = [];
+
 cardapio.eventos = {
 
   init: () => {
@@ -33,7 +35,8 @@ cardapio.metodos = {
 
       let temp = cardapio.template.item.replace(/\${img}/g, element.img)
         .replace(/\${name}/g, element.name)
-        .replace(/\${price}/g, element.price.toFixed(2).replace('.', ','));
+        .replace(/\${price}/g, element.price.toFixed(2).replace('.', ','))
+        .replace(/\${id}/g, element.id);
 
       // botão ver mais for clicado (12 itens)
       if (vermais && index >= 8 && index <= 12) {
@@ -60,26 +63,79 @@ cardapio.metodos = {
 
   },
 
-   //clique no botão ver mais
-    verMais: () => {
+  //clique no botão ver mais
+  verMais: () => {
 
-      var ativo = $(".container-menu a.active").attr('id').split('menu-')[1];
-        
-          cardapio.metodos.obterItensCardapio(ativo, true);
+    var ativo = $(".container-menu a.active").attr('id').split('menu-')[1];
 
-          $("#btnVerMais").addClass('hidden');
+    cardapio.metodos.obterItensCardapio(ativo, true);
 
-    },
+    $("#btnVerMais").addClass('hidden');
 
-    // diminuir quantidade do item no cardapio
-    diminuirQuantidade: (element) => {
+  },
 
-    },
+  // diminuir quantidade do item no cardapio
+  diminuirQuantidade: (id) => {
 
-    // aumentar quantidade do item no cardapio
-    aumentarQuantidade: (element) => {
+    let qntdAtual = parseInt($("#qntd-" + id).text());
 
-    },
+    if (qntdAtual > 0) {
+
+      $("#qntd-" + id).text(qntdAtual - 1)
+    }
+
+  },
+
+  // aumentar quantidade do item no cardapio
+  aumentarQuantidade: (id) => {
+
+    let qntdAtual = parseInt($("#qntd-" + id).text());
+    $("#qntd-" + id).text(qntdAtual + 1)
+
+  },
+
+  // adicionar item no carrinho
+  adicionarAoCarrinho: (id) => {
+
+    let qntdAtual = parseInt($("#qntd-" + id).text());
+
+    if (qntdAtual > 0) {
+
+      // obter categoria ativa
+      var categoria = $(".container-menu a.active").attr('id').split('menu-')[1];
+
+      // obter lista de itens da categoria
+      let filtro = MENU[categoria];
+
+      // obter item selecionado
+      let item = $.grep(filtro, (e, i) => { return e.id == id });
+
+      if (item.length > 0) {
+
+        // validar se já existe esse item no carrinho
+        let existe = $.grep(MEU_CARRINHO, (element, index) => { return element.id == id });
+
+        // caso já exista o item no carrinho só altera a quantidade
+        if (existe.length > 0) {
+
+          let objIndex = MEU_CARRINHO.findIndex((obj => obj.id == id));
+          MEU_CARRINHO[objIndex].qntd = MEU_CARRINHO[objIndex].qntd + qntdAtual;
+        }
+
+        // caso ainda não exista o item no carrinho, adiciona ele
+        else {
+          item[0].qntd = qntdAtual;
+          MEU_CARRINHO.push(item[0]);
+        }
+
+        $("#qntd-" + id).text(0);
+
+      }
+
+
+    }
+
+  },
 
 }
 
@@ -87,7 +143,7 @@ cardapio.template = {
 
   item: `
     <div class="col-3 mb-5">
-      <div class="card card-item">
+      <div class="card card-item" id= "\${id}">
         <div class="img-produto">
         <img src="\${img}"/>
         </div>
@@ -98,10 +154,16 @@ cardapio.template = {
           <b>R$ \${price}</b>
         </p>
         <div class="add-carrinho">
-          <span class="btn-menos"><i class="fas fa-minus"></i></span>
-          <span class="add-numero-itens">0</span>
-          <span class="btn-mais"><i class="fas fa-plus"></i></span>
-          <span class="btn btn-add"><i class="fa fa-shopping-bag"></i></span>
+          <span class="btn-menos" onclick="cardapio.metodos.diminuirQuantidade('\${id}')">
+            <i class="fas fa-minus"></i>
+          </span>
+          <span class="add-numero-itens" id="qntd-\${id}">0</span>
+          <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidade('\${id}')">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span class="btn btn-add" onclick="cardapio.metodos.adicionarAoCarrinho('\${id}')">
+            <i class="fa fa-shopping-bag"></i>
+          </span>
         </div>
       </div>                
     </div>
