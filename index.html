@@ -7,10 +7,20 @@
     <title>Restaurante - Seja bem-vindo!</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
 
   <body>
+
+    <div class="container-mensagens" id="container-mensagens">
+
+    </div>
+
+    <a class="botao-carrinho hidden" onclick="cardapio.metodos.abrirCarrinho(true)">
+      <div class="badge-total-carrinho">0</div>
+      <i class="fas fa-shopping-bag"></i>
+    </a>
 
     <section class="header">
       <div class="container">
@@ -38,8 +48,9 @@
                 <a href="#depoimentos" class="nav-link"><b>Depoimentos</b></a>
               </li>
             </ul>
-            <a class="btn btn-white btn-icon">
+            <a class="btn btn-white btn-icon" onclick="cardapio.metodos.abrirCarrinho(true)">
               Meu carrinho <span class="icon">
+                <div class="container-total-carrinho badge-total-carrinho hidden">0</div>
                 <i class="fa fa-shopping-bag"></i>
               </span>
             </a>
@@ -160,7 +171,7 @@
 
       <div class="container">
         <div class="row">
-          
+
           <div class="col-12 text-center mb-5">
             <span class="hint-title"><b>Cardápio</b></span>
             <h1 class="title">
@@ -383,7 +394,7 @@
 
       <div class="m-header">
         <div class="container">
-          <a class="btn btn-white btn-sm float-right">
+          <a class="btn btn-white btn-sm float-right" onclick="cardapio.metodos.abrirCarrinho(false)">
             Fechar
           </a>
           <div class="etapas">
