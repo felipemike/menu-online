@@ -33,7 +33,7 @@ cardapio.metodos = {
 
     $.each(filtro, (index, element) => {
 
-      let temp = cardapio.template.item.replace(/\${img}/g, element.img)
+      let temp = cardapio.templates.item.replace(/\${img}/g, element.img)
         .replace(/\${name}/g, element.name)
         .replace(/\${price}/g, element.price.toFixed(2).replace('.', ','))
         .replace(/\${id}/g, element.id);
@@ -167,11 +167,11 @@ cardapio.metodos = {
   // abrir modal do carrinho
   abrirCarrinho: (abrir) => {
 
-    if(abrir){
+    if (abrir) {
       $("#modalCarrinho").removeClass('hidden');
-      cardapio.metodos.carregarEtapa(1);
+      cardapio.metodos.carregarCarrinho();
     }
-    else{
+    else {
       $("#modalCarrinho").addClass('hidden');
     }
 
@@ -180,7 +180,7 @@ cardapio.metodos = {
   // altera os textos e exibe os botões das etapas
   carregarEtapa: (etapa) => {
 
-    if(etapa == 1) {
+    if (etapa == 1) {
 
       $("lblTituloEtapa").text('Seu carrinho:');
       $("#itensCarrinho").removeClass('hidden');
@@ -242,6 +242,85 @@ cardapio.metodos = {
 
   },
 
+  // carrega lista de itens do carrinho
+  carregarCarrinho: () => {
+
+    cardapio.metodos.carregarEtapa(1);
+
+    if (MEU_CARRINHO.length > 0) {
+
+      $("#itensCarrinho").html('');
+
+      $.each(MEU_CARRINHO, (index, element) => {
+        let temp = cardapio.templates.itemCarrinho.replace(/\${img}/g, element.img)
+        .replace(/\${name}/g, element.name)
+        .replace(/\${price}/g, element.price.toFixed(2).replace('.', ','))
+        .replace(/\${id}/g, element.id)
+        .replace(/\${qntd}/g, element.qntd);
+
+        $("#itensCarrinho").append(temp);
+
+      });
+
+    }
+    else {
+      $("#itensCarrinho").html('<p class="carrinho-vazio"><i class="fa fa-shopping-bag"></i> Seu carrinho está vazio!</p>');
+    }
+
+  },
+
+  // diminuir quantidade do item no carrinho
+  diminuirQuantidadeCarrinho: (id) => {
+
+    let qntdAtual = parseInt($("#qntd-carrinho-" + id).text());
+
+    if (qntdAtual > 1) {
+
+      $("#qntd-carrinho-" + id).text(qntdAtual - 1)
+      cardapio.metodos.atualizarCarrinho(id, qntdAtual - 1)
+    }
+    else {
+      cardapio.metodos.removerItemCarrinho(id);
+    }
+
+  },
+
+  // aumentar quantidade do item no carrinho
+  aumentarQuantidadeCarrinho: (id) => {
+
+    let qntdAtual = parseInt($("#qntd-carrinho-" + id).text());
+    $("#qntd-carrinho-" + id).text(qntdAtual + 1)
+    cardapio.metodos.atualizarCarrinho(id, qntdAtual + 1)
+
+  },
+
+  // remover item do carrinho
+  removerItemCarrinho: (id) => {
+
+    MEU_CARRINHO = $.grep(MEU_CARRINHO, (element, index) => { return element.id != id });
+    cardapio.metodos.carregarCarrinho();
+
+    // atualizar o botão carrinho com a quantidade atualizada.
+    cardapio.metodos.atualizarBadgeTotal();
+
+  },
+
+  // atualizar total do carrinho com a quantidade atual.
+  atualizarCarrinho: (id, qntd) => {
+
+    let objIndex = MEU_CARRINHO.findIndex((obj => obj.id == id));
+    MEU_CARRINHO[objIndex].qntd = qntd;
+
+    // atualizar o botão carrinho com a quantidade atualizada.
+    cardapio.metodos.atualizarBadgeTotal();
+
+  },
+
+  // carrega os valores SubTotal, taxa de entrega e total do carrinho
+  carregarValores: () => {
+    
+  },
+
 
 
 
@@ -268,7 +347,7 @@ cardapio.metodos = {
 
 }
 
-cardapio.template = {
+cardapio.templates = {
 
   item: `
     <div class="col-3 mb-5">
@@ -295,6 +374,29 @@ cardapio.template = {
           </span>
         </div>
       </div>                
+    </div>
+  `,
+
+  itemCarrinho: `
+    <div class="col-12 item-carrinho">
+      <div class="img-produto">
+        <img src="\${img}" alt="hamburger">
+      </div>
+      <div class="dados-produto">
+        <p class="title-produto"><b>\${name}</b></p>
+        <p class="price-produto"><b>R$ \${price}</b></p>
+      </div>
+      <div class="add-carrinho">
+      <span class="btn-menos" onclick="cardapio.metodos.diminuirQuantidadeCarrinho('\${id}')">
+        <i class="fas fa-minus"></i>
+      </span>
+      <span class="add-numero-itens" id="qntd-carrinho-\${id}">\${qntd}</span>
+      <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidadeCarrinho('\${id}')">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span class="btn btn-remove" onclick="cardapio.metodos.removerItemCarrinho('\${id}')">
+        <i class="fa fa-times"></i></span>
+      </div>
     </div>
   `
 }
