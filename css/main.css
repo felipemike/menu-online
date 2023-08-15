@@ -663,7 +663,7 @@ select.form-control {
   border-radius: 11px;
 }
 
-.item-carrinho-resumo {
+.item-carrinho.resumo {
   padding-top: 10px;
   padding-bottom: 10px;
 }
