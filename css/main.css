@@ -646,7 +646,6 @@ footer {
 select.form-control {
   height: 60px!important;
 
-
 }
 
 .container-cep .form-control {
@@ -749,7 +748,7 @@ select.form-control {
   position: fixed;
   right: 20px;
   top:20px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .toast {
