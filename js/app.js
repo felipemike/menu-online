@@ -573,16 +573,28 @@ cardapio.metodos = {
 
 }
 
-// criar scroll suave para links internos.
-$('nav a').click(function (e) {
-    e.preventDefault();
-    var id = $(this).attr('href'),
-        targetOffset = $(id).offset().top;
+function scrollToSection(id) {
+    var targetOffset = $(id).offset().top;
 
     $('html, body').animate({
         scrollTop: targetOffset - 59
     }, 500);
+}
 
+$(document).ready(function () {
+    // Scroll suave para links do menu
+    $('nav a').click(function (e) {
+        e.preventDefault();
+        var id = $(this).attr('href');
+        scrollToSection(id);
+    });
+
+    // Scroll suave para link "Ver cardápio"
+    $('.nav-cardapio').click(function (e) {
+        e.preventDefault();
+        var id = $(this).attr('href');
+        scrollToSection(id);
+    });
 });
 
 cardapio.templates = {
