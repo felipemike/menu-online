@@ -577,7 +577,7 @@ function scrollToSection(id) {
     var targetOffset = $(id).offset().top;
 
     $('html, body').animate({
-        scrollTop: targetOffset - 59
+        scrollTop: targetOffset - 20
     }, 500);
 }
 
