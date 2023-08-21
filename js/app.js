@@ -38,9 +38,9 @@ cardapio.metodos = {
         $.each(filtro, (i, e) => {
 
             let temp = cardapio.templates.item.replace(/\${img}/g, e.img)
-            .replace(/\${nome}/g, e.name)
-            .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
-            .replace(/\${id}/g, e.id)
+                .replace(/\${nome}/g, e.name)
+                .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                .replace(/\${id}/g, e.id)
 
             // botão ver mais foi clicado (12 itens)
             if (vermais && i >= 8 && i < 12) {
@@ -121,8 +121,8 @@ cardapio.metodos = {
                 else {
                     item[0].qntd = qntdAtual;
                     MEU_CARRINHO.push(item[0])
-                }      
-                
+                }
+
                 cardapio.metodos.mensagem('Item adicionado ao carrinho', 'green')
                 $("#qntd-" + id).text(0);
 
@@ -186,7 +186,7 @@ cardapio.metodos = {
             $("#btnEtapaResumo").addClass('hidden');
             $("#btnVoltar").addClass('hidden');
         }
-        
+
         if (etapa == 2) {
             $("#lblTituloEtapa").text('Endereço de entrega:');
             $("#itensCarrinho").addClass('hidden');
@@ -242,10 +242,10 @@ cardapio.metodos = {
             $.each(MEU_CARRINHO, (i, e) => {
 
                 let temp = cardapio.templates.itemCarrinho.replace(/\${img}/g, e.img)
-                .replace(/\${nome}/g, e.name)
-                .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
-                .replace(/\${id}/g, e.id)
-                .replace(/\${qntd}/g, e.qntd)
+                    .replace(/\${nome}/g, e.name)
+                    .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                    .replace(/\${id}/g, e.id)
+                    .replace(/\${qntd}/g, e.qntd)
 
                 $("#itensCarrinho").append(temp);
 
@@ -296,7 +296,7 @@ cardapio.metodos = {
 
         // atualiza o botão carrinho com a quantidade atualizada
         cardapio.metodos.atualizarBadgeTotal();
-        
+
     },
 
     // atualiza o carrinho com a quantidade atual
@@ -342,7 +342,7 @@ cardapio.metodos = {
         if (MEU_CARRINHO.length <= 0) {
             cardapio.metodos.mensagem('Seu carrinho está vazio.')
             return;
-        } 
+        }
 
         cardapio.metodos.carregarEtapa(2);
 
@@ -572,6 +572,18 @@ cardapio.metodos = {
     }
 
 }
+
+// criar scroll suave para links internos.
+$('nav a').click(function (e) {
+    e.preventDefault();
+    var id = $(this).attr('href'),
+        targetOffset = $(id).offset().top;
+
+    $('html, body').animate({
+        scrollTop: targetOffset - 59
+    }, 500);
+
+});
 
 cardapio.templates = {
 
